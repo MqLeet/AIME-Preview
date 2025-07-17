@@ -1,7 +1,7 @@
 export CUDA_VISIBLE_DEVICES='0' 
 
 MODEL_PATH=$1
-# math, amc23, olympiadbench, aime
+# math, amc23, olympiadbench, aime, minerva
 DATA_NAME=$2
 # test2025-II, test2024, test2023, test, test
 SPLIT=$3
