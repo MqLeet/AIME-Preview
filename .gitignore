@@ -1,0 +1,7 @@
+eval/outputs/
+eval/completions/
+
+**/__pycache__/**
+*.pyc
+
+eval/utils/__pycache__/

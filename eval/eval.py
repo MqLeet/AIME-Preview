@@ -29,6 +29,7 @@ def save_completions(completions, filepath):
 
 def parse_args():
     parser = argparse.ArgumentParser()
+    parser.add_argument('--pretrained_model_name_or_path', type=str, default="/cpfs04/user/maqianli/EW-Loss/code/model/Qwen/Qwen2.5-1.5B", help="pretrained model dir")
     parser.add_argument('--model_name_or_path', type=str, default="./", help="model dir")
     parser.add_argument('--n_sampling', type=int, default=1, help="n for sampling")
     parser.add_argument("--k", type=int, default=1, help="Value of k for pass@k calculation")
@@ -129,7 +130,7 @@ def infer(args):
     if len(available_gpus) == 1:
         envs.VLLM_HOST_IP="0.0.0.0" or "127.0.0.1"
     print(f"available_gpus: {available_gpus}")
-    tokenizer = AutoTokenizer.from_pretrained(model_name_or_path, trust_remote_code=True)
+    tokenizer = AutoTokenizer.from_pretrained(args.pretrained_model_name_or_path, trust_remote_code=True)
     prompt_batch = []
     for example in tqdm(examples, total=len(examples)):
         # parse question and answer
@@ -227,6 +228,8 @@ def infer(args):
         f.flush()
     os.rename(temp_out_file, out_file)
     
+    print(f"model: {model_name_or_path}")
+    print(f"dataset: {args.data_name}, split: {args.split}, prompt_type: {args.prompt_type}, temperature: {args.temperature}, n_sampling: {args.n_sampling}, k: {args.k}, start_idx: {args.start_idx}, end_idx: {args.end_idx}")
     print(f"correct cnt / total cnt: {correct_cnt}/{len(examples)}")
     print(f"Acc: {correct_cnt / len(examples):.4f}")
 
